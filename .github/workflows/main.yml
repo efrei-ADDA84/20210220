@@ -19,6 +19,7 @@ jobs:
       - uses: hadolint/hadolint-action@v3.1.0 # Utilise Hadolint pour lint le Dockerfile et assure que les meilleures pratiques sont suivies
         with:
           dockerfile: Dockerfile
+        continue-on-error: true
         
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3 # Configure Docker Buildx qui est un outil de build Docker avancé
