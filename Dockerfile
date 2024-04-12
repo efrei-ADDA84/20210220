@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Copier le fichier des dépendances et installer
 COPY requirements.txt .
-RUN pip install -r requirements.txt --user
+RUN pip install --no-cache-dir -r requirements.txt --user
 
 # Utiliser l'image Python de runtime comme base pour l'image finale
 FROM cgr.dev/chainguard/python:latest
