@@ -15,10 +15,7 @@ WORKDIR /app
 COPY --from=builder /home/nonroot/.local/lib/python3.12/site-packages /home/nonroot/.local/lib/python3.12/site-packages
 
 # Copier votre fichier weather_script.py dans le répertoire de travail
-COPY weather_script_TP2.py .
-
-# Expose le port
-EXPOSE 8081
+COPY weather_script.py .
 
 # Définir la commande à exécuter au démarrage du conteneur
-ENTRYPOINT [ "python", "/app/weather_script_TP2.py" ]
+ENTRYPOINT [ "python", "/app/weather_script.py" ]
