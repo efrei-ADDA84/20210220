@@ -1,5 +1,5 @@
 # Utiliser l'image Python de développement comme base pour l'étape de construction
-FROM cgr.dev/chainguard/python:latest-dev as builder
+FROM cgr.dev/chainguard/python:3.12.3 as builder
 WORKDIR /app
 
 # Copier le fichier des dépendances et installer
@@ -7,7 +7,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt --user
 
 # Utiliser l'image Python de runtime comme base pour l'image finale
-FROM cgr.dev/chainguard/python:latest
+FROM cgr.dev/chainguard/python:3.12.3
 WORKDIR /app
 
 # Copier les packages installés de l'étape de construction
