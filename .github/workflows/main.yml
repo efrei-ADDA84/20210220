@@ -1,34 +1,39 @@
-name: Push Image API weather
-on: [push]
+name: Build and Publish Docker
+on:
+  push:
+    branches:
+      - main # Déclenche le workflow sur les push vers la branche main
 jobs:
-  docker:
-    runs-on: ubuntu-latest
+  build-and-publish:
+    runs-on: ubuntu-latest # Utilise la dernière version d'Ubuntu pour exécuter les jobs
+    
     steps:
       - run: echo " The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      
       - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo " The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo " The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      -
-        name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: actions/checkout@v3  
+        
+      # Récupère le code du repository pour le runner d'actions GitHub
+        
+      - uses: actions/checkout@v3
+      - uses: hadolint/hadolint-action@v3.1.0 # Utilise Hadolint pour lint le Dockerfile et assure que les meilleures pratiques sont suivies
+        with:
+          dockerfile: Dockerfile
+        continue-on-error: true
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3 # Configure Docker Buildx qui est un outil de build Docker avancé
+        
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3 # Se connecte à Docker Hub en utilisant les identifiants stockés dans les secrets du repository
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Build and push
-        uses: docker/build-push-action@v5
+          
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5 # Construit l'image Docker et la pousse vers Docker Hub 
         with:
           push: true
-          tags: lisax105/api:1.0.0
+          tags: lisax105/efrei-devops-tp2:1.0.0
+          
       - run: echo " This job's status is ${{ job.status }}."
