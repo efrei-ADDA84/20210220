@@ -10,10 +10,6 @@ jobs:
     steps:
       - run: echo " The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       
-      - run: echo "${{ github.actor }}"
-      
-      - run: echo "${{ secrets.REGISTRY_LOGIN_SERVER }}/20210220:latest"
-      
       - name: Check out repository code
         uses: actions/checkout@v3  
         
@@ -23,27 +19,31 @@ jobs:
         continue-on-error: true
         
       #TP3
-      # - name: Azure Container Registry Login
-      #   uses: azure/docker-login@v1
-      #   with:
-      #     login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-      #     username: ${{ secrets.REGISTRY_USERNAME }}
-      #     password: ${{ secrets.REGISTRY_PASSWORD }}
-      # - run: |
-      #       docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ github.repository }}:${{ github.sha }}
-      #       docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ github.repository }}:${{ github.sha }}
 
-      # - name: 'Deploy to Azure Container Instances'
-      #   uses: 'azure/aci-deploy@v1'
-      #   with:
-      #     resource-group: ${{ secrets.RESOURCE_GROUP }}
-      #     dns-name-label: devops-${{ secrets.MY_EFREI_IDENT }}
-      #     image: contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
-      #     cpu: 1   #Optional
-      #     memory: 0.1   #Optional
-      #     registry-username: ${{ secrets.REGISTRY_USERNAME }}
-      #     registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-      #     name: contoso-container
-      #     location: 'france central'
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Azure Container Registry Login
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - run: |
+            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.MY_EFREI_IDENT }}:${{ github.sha }}
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.MY_EFREI_IDENT }}:${{ github.sha }}
+
+      - name: 'Deploy to Azure Container Instances'
+        uses: 'azure/aci-deploy@v1'
+        with:
+          resource-group: ${{ secrets.RESOURCE_GROUP }}
+          dns-name-label: devops-${{ secrets.MY_EFREI_IDENT }}
+          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.MY_EFREI_IDENT }}:${{ github.sha }}
+          registry-username: ${{ secrets.REGISTRY_USERNAME }}
+          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+          name: ${{ secrets.MY_EFREI_IDENT }}
+          location: 'france central'
             
-      # - run: echo " This job's status is ${{ job.status }}."
+      - run: echo " This job's status is ${{ job.status }}."
