@@ -12,7 +12,7 @@ jobs:
       
       - run: echo "${{ github.actor }}"
       
-      - run: echo "${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ github.repository }}:latest"
+      - run: echo "${{ secrets.REGISTRY_LOGIN_SERVER }}/20210220:latest"
       
       - name: Check out repository code
         uses: actions/checkout@v3  
