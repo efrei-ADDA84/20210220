@@ -9,31 +9,39 @@ jobs:
     
     steps:
       - run: echo " The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      
+      - run: echo "${{ github.actor }}"
+      - run: echo "${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ github.repository }}:latest"
       - name: Check out repository code
         uses: actions/checkout@v3  
         
-      # Récupère le code du repository pour le runner d'actions GitHub
-        
-      - uses: actions/checkout@v3
+      - name : Hadolint 
       - uses: hadolint/hadolint-action@v3.1.0 # Utilise Hadolint pour lint le Dockerfile et assure que les meilleures pratiques sont suivies
         with:
           dockerfile: Dockerfile
         continue-on-error: true
         
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3 # Configure Docker Buildx qui est un outil de build Docker avancé
-        
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3 # Se connecte à Docker Hub en utilisant les identifiants stockés dans les secrets du repository
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5 # Construit l'image Docker et la pousse vers Docker Hub 
-        with:
-          push: true
-          tags: lisax105/efrei-devops-tp2:1.0.0
-          
-      - run: echo " This job's status is ${{ job.status }}."
+      #TP3
+      # - name: Azure Container Registry Login
+      #   uses: azure/docker-login@v1
+      #   with:
+      #     login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+      #     username: ${{ secrets.REGISTRY_USERNAME }}
+      #     password: ${{ secrets.REGISTRY_PASSWORD }}
+      # - run: |
+      #       docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ github.repository }}:${{ github.sha }}
+      #       docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ github.repository }}:${{ github.sha }}
+
+      # - name: 'Deploy to Azure Container Instances'
+      #   uses: 'azure/aci-deploy@v1'
+      #   with:
+      #     resource-group: ${{ secrets.RESOURCE_GROUP }}
+      #     dns-name-label: devops-${{ secrets.MY_EFREI_IDENT }}
+      #     image: contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
+      #     cpu: 1   #Optional
+      #     memory: 0.1   #Optional
+      #     registry-username: ${{ secrets.REGISTRY_USERNAME }}
+      #     registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+      #     name: contoso-container
+      #     location: 'france central'
+            
+      # - run: echo " This job's status is ${{ job.status }}."
