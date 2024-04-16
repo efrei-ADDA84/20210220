@@ -45,5 +45,6 @@ jobs:
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
           name: ${{ secrets.MY_EFREI_IDENT }}
           location: 'france central'
+          ports: 80
             
       - run: echo " This job's status is ${{ job.status }}."
