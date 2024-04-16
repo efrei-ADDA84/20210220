@@ -18,7 +18,7 @@ COPY --from=builder /home/nonroot/.local/lib/python3.12/site-packages /home/nonr
 COPY weather_script_TP2.py .
 
 # Expose le port
-EXPOSE 80
+EXPOSE 8081
 
 # Définir la commande à exécuter au démarrage du conteneur
 ENTRYPOINT [ "python", "/app/weather_script_TP2.py" ]
