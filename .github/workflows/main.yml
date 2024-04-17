@@ -25,7 +25,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
-      - name: Azure Container Registry Login
+      - name: Build and push image
         uses: Azure/docker-login@v1.0.1
         with:
           login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
@@ -41,6 +41,7 @@ jobs:
           resource-group: ${{ secrets.RESOURCE_GROUP }}
           dns-name-label: devops-${{ secrets.MY_EFREI_IDENT }}
           image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.MY_EFREI_IDENT }}:${{ github.sha }}
+          registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
           name: ${{ secrets.MY_EFREI_IDENT }}
