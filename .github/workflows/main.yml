@@ -46,5 +46,6 @@ jobs:
           name: ${{ secrets.MY_EFREI_IDENT }}
           location: 'france central'
           ports: 80
+          environment-variables: API_KEY=${{ secrets.API_KEY }}
             
       - run: echo " This job's status is ${{ job.status }}."
