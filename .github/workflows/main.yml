@@ -11,7 +11,7 @@ jobs:
       - run: echo " The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       
       - name: Check out repository code
-        uses: actions/checkout@v3  
+        uses: actions/checkout@v4.1.2
         
       - uses: hadolint/hadolint-action@v3.1.0 # Utilise Hadolint pour lint le Dockerfile et assure que les meilleures pratiques sont suivies
         with:
@@ -21,12 +21,12 @@ jobs:
       #TP3
 
       - name: 'Login via Azure CLI'
-        uses: azure/login@v1
+        uses: Azure/login@v2.0.0
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
       - name: Azure Container Registry Login
-        uses: azure/docker-login@v1
+        uses: Azure/docker-login@v1.0.1
         with:
           login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           username: ${{ secrets.REGISTRY_USERNAME }}
