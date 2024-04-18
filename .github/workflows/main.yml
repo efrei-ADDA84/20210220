@@ -67,7 +67,7 @@ jobs:
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
           name: ${{ secrets.MY_EFREI_IDENT }}
-          location: 'france central'
+          location: 'france south'
           environment-variables: API_KEY=${{ secrets.API_KEY }}
             
       - run: echo " This job's status is ${{ job.status }}."
