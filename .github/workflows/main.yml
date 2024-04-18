@@ -41,10 +41,10 @@ jobs:
             docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.MY_EFREI_IDENT }}:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.MY_EFREI_IDENT }}:${{ github.sha }}
 
-      - name: Tag and push image to Docker Hub
-        run: |
-          docker tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.MY_EFREI_IDENT }}:${{ github.sha }} lisax105/efrei-devops-tp3:1.0.0
-          docker push lisax105/efrei-devops-tp3:1.0.0
+      # - name: Tag and push image to Docker Hub
+      #   run: |
+      #     docker tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.MY_EFREI_IDENT }}:${{ github.sha }} lisax105/efrei-devops-tp3:1.0.0
+      #     docker push lisax105/efrei-devops-tp3:1.0.0
          
       - name: 'Deploy to Azure Container Instances'
         uses: 'azure/aci-deploy@v1'
