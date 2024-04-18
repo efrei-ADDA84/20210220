@@ -55,7 +55,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.MY_EFREI_IDENT }}:latest
+          tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.MY_EFREI_IDENT }}:latest 
           
       - name: 'Deploy to Azure Container Instances'
         uses: 'azure/aci-deploy@v1'
