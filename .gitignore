@@ -1,0 +1,5 @@
+# Ignorer les fichiers .terraform du TP4
+TP4/*.terraform*
+TP4/.terraform/
+TP4/terraform.tfstate*
+TP4/tfplan
