@@ -6,6 +6,11 @@ variable "subscription_id" {
   type        = string
 }
 
+variable "tenant_id" {
+    type        = string
+    default     = "413600cf-bd4e-4c7c-8a61-69e73cddf731"
+}
+
 variable "resource_group_name" {
   description = "Name of the resource group use."
   default     = "ADDA84-CTP"
@@ -54,3 +59,4 @@ variable "public_key_path" {
   type        = string
   
 }
+

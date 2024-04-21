@@ -37,7 +37,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   os_disk {
     name                = "osdisk-${var.id_efrei}"
     caching              = "ReadWrite"
-    storage_account_type = "Premium_LRS"
+    storage_account_type = "Standard_LRS"
   }
 
   # use the latest Ubuntu Server 22.04 image
@@ -48,13 +48,16 @@ resource "azurerm_linux_virtual_machine" "vm" {
     version   = "latest"
   }
 
+  computer_name  = "devops-${var.id_efrei}"
+
   # use the public key from the tls provider
   admin_ssh_key {
     username   = var.admin_username
-    public_key = file(var.public_key_path)
+    public_key = tls_private_key.tls_key.public_key_openssh
   }
 
-  disable_password_authentication = true # Disable SSH password authentication
+  # Disable SSH password authentication
+  disable_password_authentication = true 
 
   # install Docker
   custom_data = base64encode(<<EOF
